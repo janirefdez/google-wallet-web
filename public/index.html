@@ -17,7 +17,7 @@ the License.
 
 -->
 <html>
-<title>Google Wallet Codelab</title>
+<title>Google Wallet</title>
 <head>
 <script>
 
@@ -25,9 +25,12 @@ window.addEventListener('load', () => {
   document.getElementById('form').addEventListener('submit', e => {
     e.preventDefault();
     const email = document.getElementById('email').value;
+    const walletIssuerId = document.getElementById('wallet_issuer_id').value;
+    const walletClassId = document.getElementById('wallet_class_id').value;
+    
     fetch(`/`, {
       method: 'POST', 
-      body: `email=${email}`,
+      body: `email=${email}&walletIssuerId=${walletIssuerId}&walletClassId=${walletClassId}`,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).then(res => {
       return res.text();
@@ -35,6 +38,7 @@ window.addEventListener('load', () => {
       document.getElementById('button').innerHTML = button;
     });
   });
+
 });
 
 </script>
@@ -47,12 +51,30 @@ window.addEventListener('load', () => {
 <div id="content">
 <img id="pass" src="sample-pass.png">
 <form id="form">
-  <p>Enter your email address to generate a new pass:</p>
-  <input required type="email" id="email" placeholder="Email">
-  <input type="submit" value="Create pass" id="submit">
-  <div id="button"></div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="form-group">
+          <label for="wallet_issuer_id">Wallet issuer ID</label>
+          <input type="text" class="form-control" id="wallet_issuer_id" value=""
+              placeholder="Wallet issuer ID">
+      </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="form-group">
+          <label for="wallet_class_id">Wallet class ID</label>
+          <input type="test" class="form-control" id="wallet_class_id" placeholder="Wallet class ID"
+              value="">
+      </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="form-group">
+      <p>Enter your email address to generate a new pass:</p>
+      <input required type="email" id="email" placeholder="Email">
+      <input type="submit" value="Create pass" id="submit">
+      <div id="button"></div>
+    </div>
 </form>
-</div>
 
 </body>
 </html>

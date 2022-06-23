@@ -20,9 +20,7 @@ const bodyParser = require('body-parser');
 const { GoogleAuth } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 
-const serviceAccountFile = process.env.GOOGLE_APPLICATION_CREDENTIALS || '/path/to/key.json';
-const issuerId = process.env.WALLET_ISSUER_ID || '<issuer ID>';
-const classId = process.env.WALLET_CLASS_ID || 'test-class-id';
+const serviceAccountFile = './key.json';
 
 async function createPassAndToken(req, res) {
   const credentials = require(serviceAccountFile);
@@ -34,8 +32,8 @@ async function createPassAndToken(req, res) {
   const objectUrl = 'https://walletobjects.googleapis.com/walletobjects/v1/genericObject/';
   const objectPayload = require('./generic-pass.json');
 
-  objectPayload.id = `${issuerId}.${req.body.email.replace(/[^\w.-]/g, '_')}-${classId}`;
-  objectPayload.classId = `${issuerId}.${classId}`;
+  objectPayload.id = `${req.body.walletIssuerId}.${req.body.email.replace(/[^\w.-]/g, '_')}-${req.body.walletClassId}`;
+  objectPayload.classId = `${req.body.walletIssuerId}.${req.body.walletClassId}`;
 
   let objectResponse;
   try {
